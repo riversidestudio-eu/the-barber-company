@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Barber Company ECI Gaia</title>
+    <meta
+      name="description"
+      content="Barbearia moderna no El Corte Inglés Gaia. Corte, barba e estilo com marcação rápida por WhatsApp ou formulário."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #070809;
+        --bg-soft: #101114;
+        --panel: rgba(15, 17, 20, 0.76);
+        --panel-strong: rgba(18, 20, 24, 0.92);
+        --text: #f5f1e8;
+        --muted: #c2b9a6;
+        --line: rgba(213, 176, 107, 0.18);
+        --gold: #d5b06b;
+        --gold-strong: #ecc98e;
+        --gold-soft: rgba(213, 176, 107, 0.12);
+        --white-soft: rgba(255, 255, 255, 0.06);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+        --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.26);
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --max: 1240px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(213, 176, 107, 0.1), transparent 28%),
+          radial-gradient(circle at top right, rgba(213, 176, 107, 0.06), transparent 24%),
+          linear-gradient(180deg, #08090b 0%, #0b0c10 100%);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.05;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(circle at center, black, transparent 78%);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .container {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(7, 8, 9, 0.72);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .topbar-inner {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .brand-kicker,
+      .section-kicker,
+      .eyebrow,
+      .chip {
+        font-size: 0.75rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+      }
+
+      .brand-kicker,
+      .section-kicker,
+      .eyebrow {
+        color: var(--gold);
+      }
+
+      .brand-name,
+      h1,
+      h2,
+      h3,
+      .panel-title,
+      .quote strong {
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+
+      .brand-name {
+        font-size: clamp(1.4rem, 2vw, 1.95rem);
+        letter-spacing: 0.03em;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+
+      nav a {
+        color: rgba(245, 241, 232, 0.84);
+        font-size: 0.95rem;
+        transition: 180ms ease;
+      }
+
+      nav a:hover {
+        color: white;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 22px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-strong));
+        color: #111;
+        box-shadow: 0 14px 34px rgba(213, 176, 107, 0.26);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 18px 42px rgba(213, 176, 107, 0.34);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(213, 176, 107, 0.35);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(7, 8, 9, 0.96) 0%, rgba(7, 8, 9, 0.76) 44%, rgba(7, 8, 9, 0.48) 66%, rgba(7, 8, 9, 0.8) 100%),
+          url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+        transform: scale(1.04);
+        animation: heroZoom 16s ease-in-out infinite alternate;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 220px;
+        background: linear-gradient(180deg, transparent, rgba(7, 8, 9, 1));
+      }
+
+      @keyframes heroZoom {
+        from {
+          transform: scale(1.03) translateX(0px);
+        }
+        to {
+          transform: scale(1.08) translateX(-8px);
+        }
+      }
+
+      .hero-orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(70px);
+        opacity: 0.34;
+        z-index: 0;
+      }
+
+      .hero-orb.one {
+        width: 280px;
+        height: 280px;
+        background: rgba(213, 176, 107, 0.22);
+        top: 80px;
+        right: -20px;
+      }
+
+      .hero-orb.two {
+        width: 240px;
+        height: 240px;
+        background: rgba(255, 255, 255, 0.08);
+        bottom: 60px;
+        left: -40px;
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        min-height: 92vh;
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        align-items: center;
+        gap: 46px;
+        padding: 72px 0 100px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 48px;
+        height: 1px;
+        background: var(--gold);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3.2rem, 7vw, 6.4rem);
+        line-height: 0.92;
+        max-width: 10ch;
+      }
+
+      .hero-copy {
+        margin: 22px 0 0;
+        max-width: 58ch;
+        font-size: clamp(1rem, 1.8vw, 1.15rem);
+        line-height: 1.78;
+        color: rgba(245, 241, 232, 0.8);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 30px;
+      }
+
+      .trust-row {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(245, 241, 232, 0.82);
+        letter-spacing: 0.12em;
+        font-size: 0.72rem;
+      }
+
+      .hero-meta {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 36px;
+      }
+
+      .meta-card,
+      .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: var(--shadow-soft);
+        backdrop-filter: blur(16px);
+      }
+
+      .meta-card {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .meta-label {
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+
+      .meta-value {
+        margin-top: 10px;
+        line-height: 1.45;
+        color: rgba(245, 241, 232, 0.92);
+      }
+
+      .hero-panel {
+        width: min(100%, 440px);
+        justify-self: end;
+        border-radius: var(--radius-xl);
+        padding: 28px;
+      }
+
+      .panel-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .panel-title {
+        font-size: 1.55rem;
+      }
+
+      .rating {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(213, 176, 107, 0.14);
+        color: var(--gold-strong);
+        font-weight: 800;
+      }
+
+      .service-list,
+      .panel-info {
+        display: grid;
+        gap: 12px;
+      }
+
+      .service-item,
+      .info-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .service-item:last-child,
+      .info-item:last-child {
+        border-bottom: 0;
+      }
+
+      .service-name,
+      .info-label {
+        color: rgba(245, 241, 232, 0.72);
+      }
+
+      .service-value,
+      .info-value {
+        font-weight: 700;
+      }
+
+      .floating-card {
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, rgba(213, 176, 107, 0.12), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(213, 176, 107, 0.16);
+      }
+
+      .floating-card small {
+        display: block;
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 10px;
+      }
+
+      .floating-card p {
+        margin: 0;
+        color: rgba(245, 241, 232, 0.78);
+        line-height: 1.65;
+      }
+
+      section {
+        padding: 96px 0;
+      }
+
+      .section-head {
+        margin-bottom: 28px;
+      }
+
+      .section-title {
+        margin: 12px 0 0;
+        font-size: clamp(2.2rem, 4vw, 3.8rem);
+        line-height: 0.98;
+      }
+
+      .section-copy {
+        margin-top: 16px;
+        max-width: 65ch;
+        color: rgba(245, 241, 232, 0.72);
+        line-height: 1.75;
+      }
+
+      .services-grid,
+      .gallery-grid,
+      .benefits-grid,
+      .contact-grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      }
+
+      .benefits-grid,
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .card {
+        border-radius: var(--radius-lg);
+        padding: 28px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .service-card {
+        min-height: 230px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -40% auto;
+        width: 130px;
+        height: 130px;
+        background: radial-gradient(circle, rgba(213, 176, 107, 0.18), transparent 68%);
+        pointer-events: none;
+      }
+
+      .service-icon {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: rgba(213, 176, 107, 0.12);
+        color: var(--gold-strong);
+        font-size: 1.3rem;
+      }
+
+      .service-card h3,
+      .benefit-card h3,
+      .contact-card h3,
+      .quote strong {
+        margin: 22px 0 10px;
+        font-size: 1.55rem;
+      }
+
+      .service-card p,
+      .benefit-card p,
+      .contact-card p,
+      .quote p {
+        margin: 0;
+        line-height: 1.72;
+        color: rgba(245, 241, 232, 0.72);
+      }
+
+      .gallery-card {
+        min-height: 320px;
+        overflow: hidden;
+        padding: 0;
+        position: relative;
+      }
+
+      .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 600ms ease;
+      }
+
+      .gallery-card:hover img {
+        transform: scale(1.06);
+      }
+
+      .gallery-card::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 42%;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.42));
+      }
+
+      .benefit-card {
+        min-height: 250px;
+      }
+
+      .quote {
+        padding: 34px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, rgba(213, 176, 107, 0.13), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(213, 176, 107, 0.18);
+      }
+
+      .quote strong {
+        display: block;
+        font-size: clamp(2rem, 4vw, 3.15rem);
+        line-height: 1;
+        margin-bottom: 14px;
+      }
+
+      .contact-card {
+        min-height: 100%;
+      }
+
+      .contact-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .contact-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .contact-line:last-child {
+        border-bottom: 0;
+      }
+
+      .contact-label {
+        color: rgba(245, 241, 232, 0.68);
+      }
+
+      .contact-value {
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .booking-form {
+        display: grid;
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        font-size: 0.92rem;
+        color: rgba(245, 241, 232, 0.78);
+      }
+
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border-radius: 16px;
+        padding: 14px 16px;
+        outline: none;
+        transition: border-color 180ms ease, background 180ms ease;
+      }
+
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        border-color: rgba(213, 176, 107, 0.5);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .field textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .form-note {
+        margin-top: 12px;
+        font-size: 0.9rem;
+        color: rgba(245, 241, 232, 0.62);
+      }
+
+      .cta {
+        padding-bottom: 110px;
+      }
+
+      .cta-box {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+        align-items: center;
+        padding: 34px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, rgba(213, 176, 107, 0.16), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(213, 176, 107, 0.22);
+        box-shadow: var(--shadow);
+      }
+
+      .cta-box h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 0.98;
+      }
+
+      .cta-box p {
+        margin: 10px 0 0;
+        color: rgba(245, 241, 232, 0.76);
+        line-height: 1.72;
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 28px 0 40px;
+        color: rgba(245, 241, 232, 0.62);
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .floating-actions {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .floating-btn {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(16, 17, 20, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: var(--shadow-soft);
+        font-size: 1.2rem;
+      }
+
+      .floating-btn.whatsapp {
+        background: linear-gradient(135deg, #1fa855, #27d366);
+        color: white;
+        border: 0;
+      }
+
+      @media (max-width: 1080px) {
+        .hero-inner,
+        .benefits-grid,
+        .contact-grid,
+        .cta-box {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-panel {
+          justify-self: start;
+          width: 100%;
+        }
+
+        .services-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 760px) {
+        nav {
+          display: none;
+        }
+
+        .hero-inner {
+          min-height: auto;
+          padding-top: 54px;
+          gap: 28px;
+        }
+
+        .hero-meta,
+        .services-grid,
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-box,
+        section {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        section {
+          padding: 78px 0;
+        }
+
+        .cta-box {
+          padding: 26px;
+        }
+
+        .floating-actions {
+          right: 14px;
+          bottom: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#top" class="brand">
+          <span class="brand-kicker">El Corte Inglés · Gaia</span>
+          <span class="brand-name">The Barber Company</span>
+        </a>
+        <nav>
+          <a href="#servicos">Serviços</a>
+          <a href="#espaco">Espaço</a>
+          <a href="#marcacao">Marcação</a>
+          <a href="#contacto">Contacto</a>
+          <a class="btn btn-primary" href="https://wa.me/351229764084?text=Olá%2C%20gostava%20de%20fazer%20uma%20marca%C3%A7%C3%A3o%20na%20The%20Barber%20Company." target="_blank" rel="noreferrer">WhatsApp</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-orb one"></div>
+        <div class="hero-orb two"></div>
+        <div class="container hero-inner">
+          <div class="reveal visible">
+            <div class="eyebrow">Barbearia moderna em Vila Nova de Gaia</div>
+            <h1>Corte, barba e estilo com uma experiência premium.</h1>
+            <p class="hero-copy">
+              Uma homepage desenhada para causar uma primeira impressão forte, transmitir confiança imediata e facilitar
+              marcações por WhatsApp ou formulário em poucos segundos.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://wa.me/351229764084?text=Olá%2C%20gostava%20de%20marcar%20um%20serviço%20na%20The%20Barber%20Company." target="_blank" rel="noreferrer">Marcar por WhatsApp</a>
+              <a class="btn btn-secondary" href="#marcacao">Pedir marcação</a>
+            </div>
+
+            <div class="trust-row">
+              <span class="chip">4.9 estrelas</span>
+              <span class="chip">158 avaliações</span>
+              <span class="chip">Aberto até às 22:00</span>
+            </div>
+
+            <div class="hero-meta">
+              <div class="meta-card">
+                <div class="meta-label">Localização</div>
+                <div class="meta-value">El Corte Inglés Gaia</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-label">Serviços</div>
+                <div class="meta-value">Corte, barba, lâmina e toalha quente</div>
+              </div>
+              <div class="meta-card">
+                <div class="meta-label">Marcação</div>
+                <div class="meta-value">WhatsApp, telefone ou formulário</div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-panel glass-card reveal visible">
+            <div class="panel-heading">
+              <div class="panel-title">Marcação rápida</div>
+              <div class="rating">★ 4.9</div>
+            </div>
+
+            <div class="service-list">
+              <div class="service-item">
+                <span class="service-name">Corte de cabelo</span>
+                <span class="service-value">Premium</span>
+              </div>
+              <div class="service-item">
+                <span class="service-name">Barbeado</span>
+                <span class="service-value">Clássico</span>
+              </div>
+              <div class="service-item">
+                <span class="service-name">Barbeado com lâmina</span>
+                <span class="service-value">Tradicional</span>
+              </div>
+              <div class="service-item">
+                <span class="service-name">Toalha quente</span>
+                <span class="service-value">Experiência</span>
+              </div>
+            </div>
+
+            <div class="panel-info">
+              <div class="info-item">
+                <span class="info-label">Telefone</span>
+                <a class="info-value" href="tel:+351229764084">22 976 4084</a>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Morada</span>
+                <span class="info-value">Av. da República 1435 1</span>
+              </div>
+            </div>
+
+            <div class="floating-card">
+              <small>CTA integrado</small>
+              <p>Botão direto para WhatsApp com mensagem pré-preenchida e formulário pronto para captar pedidos de marcação.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="servicos">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="section-kicker">Serviços</div>
+            <h2 class="section-title">Interface premium, leitura rápida e ação imediata.</h2>
+            <p class="section-copy">
+              O layout foi pensado para o utilizador encontrar o que precisa sem esforço: serviços, confiança, localização e marcação.
+            </p>
+          </div>
+
+          <div class="services-grid">
+            <article class="card service-card reveal">
+              <div class="service-icon">✂</div>
+              <div>
+                <h3>Corte</h3>
+                <p>Apresentação clara para novos clientes perceberem a proposta da barbearia logo no primeiro scroll.</p>
+              </div>
+            </article>
+
+            <article class="card service-card reveal">
+              <div class="service-icon">🪒</div>
+              <div>
+                <h3>Barba</h3>
+                <p>Serviços bem organizados, com visual premium e caminho direto para agendamento rápido.</p>
+              </div>
+            </article>
+
+            <article class="card service-card reveal">
+              <div class="service-icon">★</div>
+              <div>
+                <h3>Confiança</h3>
+                <p>Avaliações, visual sólido e hierarquia forte para reforçar autoridade e credibilidade.</p>
+              </div>
+            </article>
+
+            <article class="card service-card reveal">
+              <div class="service-icon">⚡</div>
+              <div>
+                <h3>Conversão</h3>
+                <p>Botões bem posicionados e formulário embutido para transformar visitas em contactos reais.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="espaco">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="section-kicker">Espaço</div>
+            <h2 class="section-title">Um visual que combina com a qualidade da marca.</h2>
+          </div>
+
+          <div class="gallery-grid">
+            <article class="card gallery-card reveal">
+              <img src="https://images.unsplash.com/photo-1503951458645-643d53bfd90f?auto=format&fit=crop&w=1200&q=80" alt="Interior de uma barbearia moderna" />
+            </article>
+            <article class="card gallery-card reveal">
+              <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=900&q=80" alt="Cadeira e estação de trabalho de barbearia" />
+            </article>
+            <article class="card gallery-card reveal">
+              <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=900&q=80" alt="Ferramentas de barbeiro" />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container benefits-grid">
+          <div class="quote reveal">
+            <strong>Desenhado para impressionar em segundos.</strong>
+            <p>
+              Este mockup segue uma lógica mais premium de UI/UX: contraste forte, chamadas para ação bem distribuídas,
+              foco na confiança e uma navegação simples para aumentar a probabilidade de marcação.
+            </p>
+          </div>
+
+          <article class="card benefit-card reveal">
+            <div class="section-kicker">Estratégia</div>
+            <h3>Mais do que bonito: pensado para converter.</h3>
+            <p>
+              O utilizador vê logo a proposta, percebe a qualidade e encontra uma ação clara: falar no WhatsApp ou pedir marcação no formulário.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="marcacao">
+        <div class="container">
+          <div class="section-head reveal">
+            <div class="section-kicker">Marcação</div>
+            <h2 class="section-title">WhatsApp direto ou formulário simples.</h2>
+            <p class="section-copy">
+              Duas opções de contacto para reduzir fricção e aumentar a taxa de resposta.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <article class="card contact-card reveal" id="contacto">
+              <div class="section-kicker">Contacto</div>
+              <h3>The Barber Company ECI Gaia</h3>
+              <p>
+                Estrutura perfeita para colocar localização, horários, serviços e canais de contacto sem sobrecarregar a página.
+              </p>
+
+              <div class="contact-list">
+                <div class="contact-line">
+                  <span class="contact-label">Telefone</span>
+                  <a class="contact-value" href="tel:+351229764084">22 976 4084</a>
+                </div>
+                <div class="contact-line">
+                  <span class="contact-label">Morada</span>
+                  <span class="contact-value">Av. da República 1435 1</span>
+                </div>
+                <div class="contact-line">
+                  <span class="contact-label">Horário</span>
+                  <span class="contact-value">Aberto · Fecha às 22:00</span>
+                </div>
+                <div class="contact-line">
+                  <span class="contact-label">WhatsApp</span>
+                  <a class="contact-value" href="https://wa.me/351229764084?text=Olá%2C%20gostava%20de%20fazer%20uma%20marca%C3%A7%C3%A3o%20na%20The%20Barber%20Company." target="_blank" rel="noreferrer">Iniciar conversa</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card contact-card reveal">
+              <div class="section-kicker">Formulário</div>
+              <h3>Pedir marcação</h3>
+              <p>
+                Nesta demo, o formulário já está preparado para abrir o WhatsApp com a mensagem preenchida automaticamente.
+              </p>
+
+              <form class="booking-form" id="bookingForm">
+                <div class="field">
+                  <label for="name">Nome</label>
+                  <input id="name" name="name" type="text" placeholder="O seu nome" required />
+                </div>
+
+                <div class="field">
+                  <label for="service">Serviço</label>
+                  <select id="service" name="service" required>
+                    <option value="">Selecionar</option>
+                    <option value="Corte de cabelo">Corte de cabelo</option>
+                    <option value="Barba">Barba</option>
+                    <option value="Corte + Barba">Corte + Barba</option>
+                    <option value="Toalha quente">Toalha quente</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="date">Data pretendida</label>
+                  <input id="date" name="date" type="text" placeholder="Ex: sexta à tarde" />
+                </div>
+
+                <div class="field">
+                  <label for="message">Observações</label>
+                  <textarea id="message" name="message" placeholder="Diga-nos o horário preferido ou alguma observação."></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button class="btn btn-primary" type="submit">Enviar por WhatsApp</button>
+                  <a class="btn btn-secondary" href="tel:+351229764084">Ligar agora</a>
+                </div>
+                <div class="form-note">Na versão final, também pode ser ligado a email, CRM ou sistema de reservas.</div>
+              </form>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta">
+        <div class="container">
+          <div class="cta-box reveal">
+            <div>
+              <h2>Uma homepage assim já coloca a marca noutro nível.</h2>
+              <p>
+                Este exemplo mostra como uma barbearia pode parecer mais premium, captar melhor a atenção e facilitar contactos imediatos.
+              </p>
+            </div>
+            <a class="btn btn-primary" href="https://wa.me/351229764084?text=Olá%2C%20vi%20o%20site%20e%20gostava%20de%20fazer%20uma%20marca%C3%A7%C3%A3o." target="_blank" rel="noreferrer">Falar no WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="floating-actions">
+      <a class="floating-btn whatsapp" href="https://wa.me/351229764084?text=Olá%2C%20gostava%20de%20fazer%20uma%20marca%C3%A7%C3%A3o%20na%20The%20Barber%20Company." target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp">✆</a>
+      <a class="floating-btn" href="#top" aria-label="Voltar ao topo">↑</a>
+    </div>
+
+    <footer>
+      <div class="container footer-inner">
+        <span>Exemplo visual criado para apresentação comercial.</span>
+        <span>The Barber Company ECI Gaia · Vila Nova de Gaia</span>
+      </div>
+    </footer>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.14 }
+      );
+
+      document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+
+      const form = document.getElementById('bookingForm');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const service = document.getElementById('service').value.trim();
+        const date = document.getElementById('date').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        const text = [
+          'Olá, gostava de fazer uma marcação na The Barber Company.',
+          name ? `Nome: ${name}` : '',
+          service ? `Serviço: ${service}` : '',
+          date ? `Data pretendida: ${date}` : '',
+          message ? `Observações: ${message}` : '',
+        ]
+          .filter(Boolean)
+          .join('\n');
+
+        const whatsappUrl = `https://wa.me/351229764084?text=${encodeURIComponent(text)}`;
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      });
+    </script>
+  </body>
+</html>
